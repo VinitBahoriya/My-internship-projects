@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="project.css">
+  <title>Pricing Landing Page</title>
+</head>
+<body>
+  <header>
+    <h1>Our Plans</h1>
+  </header>
+  <main>
+    <section class="pricing-structure">
+      <!-- Pricing structure content goes here -->
+      <div class="pricing-tier" id="basic-tier">
+        <h2>Basic</h2>
+        <p>₹99/Month</p>
+      </div>
+      <div class="pricing-tier" id="premium-tier">
+        <h2>Premium</h2>
+        <p>₹999/Year</p>
+      </div>
+    </section>
+    <section class="interactive-elements">
+      <!-- Interactive elements go here (JavaScript) -->
+      <label for="basic-tier">Show Basic Tier</label>
+      <input type="radio" name="tier" id="basic-tier" onclick="togglePricing('basic-tier')">
+      
+      <label for="premium-tier">Show Premium Tier</label>
+      <input type="radio" name="tier" id="premium-tier" onclick="togglePricing('premium-tier')">
+    </section>
+  </main>
+  <script src="project.js"></script> <!-- Optional JavaScript file -->
+</body>
+</html>
