@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Product Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product-info {
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Responsive Styles */
+        @media only screen and (max-width: 600px) {
+            section {
+                padding: 10px;
+            }
+
+            .cta-button {
+                display: block;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SAHARA</h1>
+    </header>
+    
+    <section>
+        <div class="product-info">
+            <h2>Sketchbook</h2>
+            <p>An A4 size sketchbook for effecttive and efficient sketching</p>
+            <p>Price: ₹250.00</p>
+        </div>
+
+        <div class="product-image">
+            <img src="https://m.media-amazon.com/images/I/91PhnCCr3gL._AC_UF1000,1000_QL80_.jpg" alt="Product Image">
+        </div>
+
+        <div class="cta" id="ctaButton">
+            <a href="#" class="cta-button" onclick="showPopup()">Purchase</a>
+        </div>
+
+        <!-- Modal -->
+        <div class="overlay" id="overlay"></div>
+        <div class="modal" id="modal">
+            <p>Only one step remaining</p>
+            <button onclick="hidePopup()">Pay</button>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2024 E-commerce Product Page
+    </footer>
+
+    <script>
+        function showPopup() {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function hidePopup() {
+            document.getElementById('overlay').style.display = '';
+            document.getElementById('modal').style.display = '';
+        }
+    </script>
+</body>
+</html>
