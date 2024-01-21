@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://i.ebayimg.com/images/g/n8IAAOSwltRkNCSF/s-l1200.webp');
+            background-color: #f2f2f2;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .task-container {
+            max-width: 400px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .column {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .column h2 {
+            background-color: #bb01ff;
+            color: #fff;
+            margin: 0;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+
+        .task:hover {
+            background-color: #f9f9f9;
+        }
+
+        .task input[type="text"] {
+            flex: 1;
+            margin-right: 10px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .task button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .task button:hover {
+            background-color: #c0392b;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="task-container">
+        <div class="column" id="inputColumn">
+            <h2>Add Tasks</h2>
+            <div>
+                <input type="text" class="newTaskInput" placeholder="Add new task...">
+                <button onclick="addTask()">Add Task</button>
+            </div>
+        </div>
+
+        <div class="column" id="inProgressColumn">
+            <h2>In Progress</h2>
+            <div class="tasks"></div>
+        </div>
+
+        <div class="column" id="completedColumn">
+            <h2>Completed</h2>
+            <div class="tasks"></div>
+        </div>
+    </div>
+
+    <script>
+        const inputColumn = document.getElementById('inputColumn');
+        const inProgressColumn = document.getElementById('inProgressColumn');
+        const completedColumn = document.getElementById('completedColumn');
+
+        const tasksInProgress = JSON.parse(localStorage.getItem('tasksInProgress')) || [];
+        const completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
+
+        function renderTasks() {
+            renderColumnTasks(inProgressColumn, tasksInProgress);
+            renderColumnTasks(completedColumn, completedTasks);
+        }
+
+        function renderColumnTasks(column, tasks) {
+            const tasksContainer = column.querySelector('.tasks');
+            tasksContainer.innerHTML = '';
+
+            tasks.forEach((task, index) => {
+                const taskDiv = document.createElement('div');
+                taskDiv.classList.add('task');
+                if (task.completed) {
+                    taskDiv.classList.add('completed');
+                }
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = task.text;
+                input.addEventListener('input', (event) => editTask(index, event.target.value, tasks));
+
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'Delete';
+                deleteButton.addEventListener('click', () => deleteTask(index, tasks));
+
+                const toggleButton = document.createElement('button');
+                toggleButton.innerText = task.completed ? 'Uncomplete' : 'Complete';
+                toggleButton.addEventListener('click', () => toggleTask(index, tasks));
+
+                taskDiv.appendChild(input);
+                taskDiv.appendChild(toggleButton);
+                taskDiv.appendChild(deleteButton);
+
+                tasksContainer.appendChild(taskDiv);
+            });
+
+            localStorage.setItem(column.id === 'inProgressColumn' ? 'tasksInProgress' : 'completedTasks', JSON.stringify(tasks));
+        }
+
+        function addTask() {
+            const newTaskInput = inputColumn.querySelector('.newTaskInput');
+            const newTaskText = newTaskInput.value.trim();
+
+            if (newTaskText !== '') {
+                tasksInProgress.push({ text: newTaskText, completed: false });
+                newTaskInput.value = '';
+                renderTasks();
+            }
+        }
+
+        function editTask(index, newText, tasks) {
+            tasks[index].text = newText;
+            renderTasks();
+        }
+
+        function deleteTask(index, tasks) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        function toggleTask(index, tasks) {
+            tasks[index].completed = !tasks[index].completed;
+            if (tasks === tasksInProgress && tasks[index].completed) {
+                completedTasks.push(tasks[index]);
+                tasks.splice(index, 1);
+            }
+            renderTasks();
+        }
+
+        renderTasks();
+    </script>
+</body>
+</html>
